@@ -1,0 +1,224 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Employee {
+    int id;
+    String name;
+    double salary;
+    String designation;
+
+    Employee(int id, String name, double salary, String designation) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.designation = designation;
+    }
+
+    void display() {
+        System.out.println("ID          : " + id);
+        System.out.println("Name        : " + name);
+        System.out.println("Designation : " + designation);
+        System.out.println("Salary      : " + salary);
+        System.out.println("----------------------------");
+    }
+}
+
+public class EmployeeRecordSystem {
+
+    // Global variable for automatic Employee ID
+    static int nextEmployeeId = 1;
+
+    static ArrayList<Employee> employees = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+
+    static void loadSampleData() {
+
+    employees.add(new Employee(
+        nextEmployeeId++, 
+        "Rahul Sharma", 
+        50000, 
+        "Software Developer"
+    ));
+
+    employees.add(new Employee(
+        nextEmployeeId++, 
+        "Priya Patil", 
+        60000, 
+        "Project Manager"
+    ));
+
+    employees.add(new Employee(
+        nextEmployeeId++, 
+        "Amit Verma", 
+        45000, 
+        "Database Administrator"
+    ));
+
+    employees.add(new Employee(
+        nextEmployeeId++, 
+        "Sneha Joshi", 
+        55000, 
+        "HR Manager"
+    ));
+
+    employees.add(new Employee(
+        nextEmployeeId++, 
+        "Vivek Deshmukh", 
+        40000, 
+        "Web Developer"
+    ));
+}
+
+    // Add Employee
+    static void addEmployee() {
+
+        // Automatically assign ID
+        int id = nextEmployeeId++;
+
+        sc.nextLine();
+
+        System.out.print("Enter Employee Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Employee Designation: ");
+        String designation = sc.nextLine();
+
+        System.out.print("Enter Employee Salary: ");
+        double salary = sc.nextDouble();
+
+        employees.add(new Employee(id, name, salary, designation));
+
+        System.out.println("\nEmployee added successfully!");
+        System.out.println("Automatically Assigned Employee ID: " + id);
+    }
+
+    // Display Employees
+    static void displayEmployees() {
+
+        if (employees.isEmpty()) {
+            System.out.println("No employee records found.");
+            return;
+        }
+
+        System.out.println("\n===== EMPLOYEE RECORDS =====");
+
+        for (Employee e : employees) {
+            e.display();
+        }
+    }
+
+    // Search Employee
+    static void searchEmployee() {
+
+        System.out.print("Enter Employee ID to search: ");
+        int id = sc.nextInt();
+
+        for (Employee e : employees) {
+
+            if (e.id == id) {
+                System.out.println("\nEmployee Found:");
+                e.display();
+                return;
+            }
+        }
+
+        System.out.println("Employee not found.");
+    }
+
+    // Update Employee
+    static void updateEmployee() {
+
+        System.out.print("Enter Employee ID to update: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Employee e : employees) {
+
+            if (e.id == id) {
+
+                System.out.print("Enter New Name: ");
+                e.name = sc.nextLine();
+
+                System.out.print("Enter New Designation: ");
+                e.designation = sc.nextLine();
+
+                System.out.print("Enter New Salary: ");
+                e.salary = sc.nextDouble();
+
+                System.out.println("Employee updated successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Employee not found.");
+    }
+
+    // Delete Employee
+    static void deleteEmployee() {
+
+        System.out.print("Enter Employee ID to delete: ");
+        int id = sc.nextInt();
+
+        for (int i = 0; i < employees.size(); i++) {
+
+            if (employees.get(i).id == id) {
+
+                employees.remove(i);
+
+                System.out.println("Employee deleted successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Employee not found.");
+    }
+
+    // Main Menu
+    public static void main(String[] args) {
+
+        loadSampleData();
+        while (true) {
+            System.out.println("\n===== EMPLOYEE RECORD SYSTEM =====");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Display Employees");
+            System.out.println("3. Search Employee");
+            System.out.println("4. Update Employee");
+            System.out.println("5. Delete Employee");
+            System.out.println("6. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    addEmployee();
+                    break;
+
+                case 2:
+                    displayEmployees();
+                    break;
+
+                case 3:
+                    searchEmployee();
+                    break;
+
+                case 4:
+                    updateEmployee();
+                    break;
+
+                case 5:
+                    deleteEmployee();
+                    break;
+
+                case 6:
+                    System.out.println("Thank you!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
